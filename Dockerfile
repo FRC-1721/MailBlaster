@@ -1,5 +1,5 @@
 FROM python:3
-LABEL authors="kenwood364@gmail.com"
+LABEL authors="31870999+KenwoodFox@users.noreply.github.com"
 
 ARG APP_NAME=email-blaster
 ENV APP_NAME=${APP_NAME}
