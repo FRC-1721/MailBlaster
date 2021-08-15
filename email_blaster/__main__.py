@@ -1,30 +1,22 @@
 # -*- coding: utf-8 -*-
 
-# This Source Code Form is subject to the terms of the Mozilla Public
-# License, v. 2.0. If a copy of the MPL was not distributed with this
-# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# Tidal Force Robotics
 
-import click
-import logging
+import os
 import sys
+import logging
 
-from .application import App
+from .main import EmailBlaster
 
-
-@click.command()
-def hello_world():
-    app = App()
-    print(app.get_hello_world())
-
-
-@click.group()
-def main(args=None):
-    """Command line utility"""
-    logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+__author__ = 'FRC Team 1721'
+__email__ = 'concordroboticsteam@gmail.com'
+__version__ = os.environ.get('VERSION')
 
 
-main.add_command(hello_world)
+# Setup logging
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
+bot = EmailBlaster()
 
-if __name__ == "__main__":
-    sys.exit(main())
+logging.info(bot.get_hello_world())
+logging.info(f"using version {__version__}")

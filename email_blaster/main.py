@@ -1,5 +1,5 @@
 
-class App(object):
+class EmailBlaster(object):
 
     def __init__(self):
         pass

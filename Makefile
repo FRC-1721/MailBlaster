@@ -27,7 +27,7 @@ lint:
 	flake8 .
 
 test:
-	docker-compose run app test
+	docker-compose run email_blaster test
 
 install-requirements:
 	pip install -r requirements/requirements.txt
@@ -40,14 +40,11 @@ docker-rm: stop
 	docker-compose rm -f
 
 shell:
-	docker-compose run --entrypoint "/bin/bash" app
+	docker-compose run --entrypoint "/bin/bash" email_blaster
 
 run:
-	docker-compose run -e GCLOUD_SERVICE_KEY app $(COMMAND)
+	docker-compose run -e GCLOUD_SERVICE_KEY email_blaster $(COMMAND)
 
 stop:
 	docker-compose down
 	docker-compose stop
-
-hello-world:
-	docker-compose run app email-blaster hello-world

@@ -1,11 +1,11 @@
 import pytest
 
-from email_blaster.application import App
+from email_blaster.main import EmailBlaster
 
 
 @pytest.fixture
 def app():
-    return App()
+    return EmailBlaster()
 
 
 class TestApplication(object):
