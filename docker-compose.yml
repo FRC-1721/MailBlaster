@@ -5,7 +5,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/code
     restart: "no"
     command: "true"
