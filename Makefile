@@ -64,4 +64,4 @@ stop:
 
 # "production"
 prod:
-	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse HEAD)
+	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD)

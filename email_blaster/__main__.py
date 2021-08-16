@@ -1,22 +1,10 @@
-# -*- coding: utf-8 -*-
+# Tidal Force robotics
+# 2021, Email Blaster
+# MIT License
 
-# Tidal Force Robotics
-
-import os
-import sys
-import logging
 
 from .main import EmailBlaster
 
-__author__ = 'FRC Team 1721'
-__email__ = 'concordroboticsteam@gmail.com'
-__version__ = os.environ.get('GIT_COMMIT')
-
-
-# Setup logging
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-
 bot = EmailBlaster()
 
-logging.info(bot.get_hello_world())
-logging.info(f"using version {__version__}")
+bot.run()

@@ -1,8 +1,19 @@
+# Tidal Force robotics
+# 2021, Email Blaster
+# MIT License
+
+
+import os
+import sys
+import logging
+
+# Setup logging
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 class EmailBlaster(object):
 
     def __init__(self):
-        pass
+        self.version = os.environ.get('GIT_COMMIT')
 
-    def get_hello_world(self):
-        return "Hello, World"
+    def run(self):
+        logging.info(f"using version {self.version}")
