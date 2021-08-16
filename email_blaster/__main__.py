@@ -10,7 +10,7 @@ from .main import EmailBlaster
 
 __author__ = 'FRC Team 1721'
 __email__ = 'concordroboticsteam@gmail.com'
-__version__ = os.environ.get('VERSION')
+__version__ = os.environ.get('GIT_COMMIT')
 
 
 # Setup logging

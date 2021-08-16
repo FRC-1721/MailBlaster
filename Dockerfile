@@ -7,6 +7,10 @@ LABEL authors="31870999+KenwoodFox@users.noreply.github.com"
 ARG APP_NAME=email-blaster
 ENV APP_NAME=${APP_NAME}
 
+# Get the current git version
+ARG GIT_COMMIT
+ENV GIT_COMMIT=$GIT_COMMIT
+
 # UID, GID
 ARG USER_ID="10001"
 ARG GROUP_ID="app"
