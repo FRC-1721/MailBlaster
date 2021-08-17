@@ -11,4 +11,9 @@ def app():
 class TestApplication(object):
 
     def test_versioning(self, app):
+        # App version must be present
         assert len(app.version) > 1
+
+    def test_config_readable(self, app):
+        # Config must have these sections
+        assert app.config.sections() == ['discord', 'mail']
