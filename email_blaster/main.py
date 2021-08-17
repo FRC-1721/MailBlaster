@@ -29,7 +29,7 @@ class EmailBlaster(object):
             logging.info("Running in prod mode.")
 
         self.email = 'concordroboticsalert1721@gmail.com'
-        self.email_password = 'Team1721'
+        self.email_password = ''
         self.email_server = 'imap.gmail.com'
 
         # Scheduled tasks
