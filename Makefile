@@ -41,9 +41,9 @@ install-requirements:
 	pip install -r requirements/requirements.txt
 	pip install -r requirements/test_requirements.txt
 
-# Build container (similar to prod)
+# Build container locally
 build:
-	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD)
+	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) --build-arg DEBUG=True
 
 # Delete container
 docker-rm: stop
@@ -64,4 +64,5 @@ stop:
 
 # "production"
 prod:
-	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) PROD=true
+	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) --build-arg DEBUG=False
+	docker-compose up -d

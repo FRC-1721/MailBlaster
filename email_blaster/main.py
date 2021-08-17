@@ -11,13 +11,20 @@ import imaplib
 import schedule
 import time
 
-# Setup logging
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-
 class EmailBlaster(object):
 
     def __init__(self):
+        # Get enviormemt vars
         self.version = os.environ.get('GIT_COMMIT') # Currently running version
+        self.debug = not os.getenv("DEBUG", 'False').lower() in ('true', '1', 't') # If we're in production mode or not
+
+        # Setup logging
+        if self.debug:
+            logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+            logging.debug("Running in debug mode.")
+        else:
+            logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+            logging.info("Running in prod mode.")
         
         self.email = 'concordroboticsalert1721@gmail.com'
         self.email_password = 'Team1721'
@@ -31,8 +38,12 @@ class EmailBlaster(object):
         self.mail.select('inbox')
 
         # Scheduled tasks
-        #schedule.every(20).to(50).seconds.do(self.get_new_emails) # Check for emails every 10 to 15 minutes
-        schedule.every(20).to(50).seconds.do(self.get_new_emails)
+        if self.debug:
+            # Check for emails every 20 to 50 seconds
+            schedule.every(20).to(50).seconds.do(self.get_new_emails)
+        else:
+            # Check for emails every 10 to 15 minutes
+            schedule.every(10).to(15).minutes.do(self.get_new_emails)
 
     def run(self):
         logging.info(f"using version {self.version}")
