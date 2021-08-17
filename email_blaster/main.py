@@ -37,9 +37,9 @@ class EmailBlaster(object):
         self.config.read('/app/email-blaster/email_blaster/config.ini')
         logging.debug(self.config.sections())
 
-        self.email = 'concordroboticsalert1721@gmail.com'
-        self.email_password = ''
-        self.email_server = 'imap.gmail.com'
+        self.email = self.config['mail']['email']
+        self.email_password = self.config['mail']['emailPassword']
+        self.email_server = self.config['mail']['emailServer']
 
         # Scheduled tasks
         if self.debug:
