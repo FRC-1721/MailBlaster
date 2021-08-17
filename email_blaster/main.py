@@ -40,6 +40,8 @@ class EmailBlaster(object):
             # Check for emails every 10 to 15 minutes
             schedule.every(10).to(15).minutes.do(self.get_new_emails)
 
+        self.email_list=[]
+
     def run(self):
         logging.info(f"using version {self.version}")
 
