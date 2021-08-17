@@ -1,11 +1,9 @@
-version: '2'
+version: '3.9'
 
 services:
-  app:
+  email_blaster:
     build:
       context: .
       dockerfile: Dockerfile
     restart: "no"
     command: "true"
-    environment:
-      - GCLOUD_SERVICE_KEY
