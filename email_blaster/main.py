@@ -8,6 +8,8 @@ import sys
 import logging
 import email
 import imaplib
+import schedule
+import time
 
 # Setup logging
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
@@ -18,7 +20,7 @@ class EmailBlaster(object):
         self.version = os.environ.get('GIT_COMMIT') # Currently running version
         
         self.email = 'concordroboticsalert1721@gmail.com'
-        self.email_password = ''
+        self.email_password = 'Team1721'
         self.email_server = 'imap.gmail.com'
 
         # Login with credentials
@@ -28,9 +30,24 @@ class EmailBlaster(object):
         # Select mailbox
         self.mail.select('inbox')
 
+        # Scheduled tasks
+        #schedule.every(20).to(50).seconds.do(self.get_new_emails) # Check for emails every 10 to 15 minutes
+        schedule.every(20).to(50).seconds.do(self.get_new_emails)
+
     def run(self):
         logging.info(f"using version {self.version}")
 
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+
+
+    def get_new_emails(self):
+        """
+        Check for new unread emails and add them to a postlist to sort through.
+        """
+
+        logging.debug("Checking for new emails.")
         # From here https://humberto.io/blog/sending-and-receiving-emails-with-python/
         status, data = self.mail.search(None, "(UNSEEN)")
 

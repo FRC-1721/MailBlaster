@@ -43,7 +43,7 @@ install-requirements:
 
 # Build container (similar to prod)
 build:
-	docker-compose build
+	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD)
 
 # Delete container
 docker-rm: stop
@@ -55,7 +55,7 @@ shell:
 
 # Run command in container
 run:
-	docker-compose run -e GCLOUD_SERVICE_KEY email_blaster $(COMMAND)
+	docker-compose run email_blaster $(COMMAND)
 
 # Stop container
 stop:
@@ -64,4 +64,4 @@ stop:
 
 # "production"
 prod:
-	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD)
+	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) PROD=true
