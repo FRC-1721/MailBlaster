@@ -10,6 +10,7 @@ import email
 import imaplib
 import schedule
 import time
+import configparser
 
 
 class EmailBlaster(object):
@@ -28,8 +29,16 @@ class EmailBlaster(object):
             logging.basicConfig(stream=sys.stderr, level=logging.INFO)
             logging.info("Running in prod mode.")
 
+        # Generate config
+        self.config = configparser.ConfigParser()
+
+        # Read config
+        logging.debug(os.listdir(os.getcwd()))
+        self.config.read('/app/email-blaster/email_blaster/config.ini')
+        logging.debug(self.config.sections())
+
         self.email = 'concordroboticsalert1721@gmail.com'
-        self.email_password = 'Team1721'
+        self.email_password = ''
         self.email_server = 'imap.gmail.com'
 
         # Scheduled tasks
