@@ -32,13 +32,6 @@ class EmailBlaster(object):
         self.email_password = 'Team1721'
         self.email_server = 'imap.gmail.com'
 
-        # Login with credentials
-        self.mail = imaplib.IMAP4_SSL(self.email_server)
-        self.mail.login(self.email, self.email_password)
-
-        # Select mailbox
-        self.mail.select('inbox')
-
         # Scheduled tasks
         if self.debug:
             # Check for emails every 20 to 50 seconds
@@ -49,6 +42,13 @@ class EmailBlaster(object):
 
     def run(self):
         logging.info(f"using version {self.version}")
+
+        # Login with credentials
+        self.mail = imaplib.IMAP4_SSL(self.email_server)
+        self.mail.login(self.email, self.email_password)
+
+        # Select mailbox
+        self.mail.select('inbox')
 
         while True:
             schedule.run_pending()
