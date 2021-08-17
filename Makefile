@@ -33,7 +33,7 @@ lint:
 	flake8 .
 
 # Run the tests
-test:
+test: build
 	docker-compose run email_blaster test
 
 # Install requirements (locally)
