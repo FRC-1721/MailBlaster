@@ -5,11 +5,12 @@
 
 import os
 import sys
-import logging
-import email
-import imaplib
-import schedule
 import time
+import email
+import logging
+import imaplib
+import discord
+import schedule
 import configparser
 
 
@@ -53,15 +54,31 @@ class EmailBlaster(object):
         logging.info(f"using version {self.version}")
 
         # Login with credentials
-        self.mail = imaplib.IMAP4_SSL(self.email_server)
-        self.mail.login(self.email, self.email_password)
+        #self.mail = imaplib.IMAP4_SSL(self.email_server)
+        #self.mail.login(self.email, self.email_password)
 
         # Select mailbox
-        self.mail.select('inbox')
+        #self.mail.select('inbox')
+
+        # Initalize discord client connection
+        self.client = discord.Client()
+
+        # Attach client connection (not as elegant as @decorator but meh)
+        self.on_message = self.client.event(self.on_message)
 
         while True:
+            # Run discord py Move me later!
+            self.client.run(self.config['discord']['token'])
+
             schedule.run_pending()
             time.sleep(1)
+    
+    async def on_message(self, message):
+        if message.author == self.client.user:
+            return
+
+        if message.content.startswith('!mail'):
+            await message.channel.send(f'MailBlaster:tm: running version {self.version}')
 
     def get_new_emails(self):
         """
