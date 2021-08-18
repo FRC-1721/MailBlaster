@@ -8,7 +8,7 @@ import sys
 import time
 import email
 import logging
-import imaplib
+# import imaplib
 import discord
 import schedule
 import configparser
@@ -54,11 +54,11 @@ class EmailBlaster(object):
         logging.info(f"using version {self.version}")
 
         # Login with credentials
-        #self.mail = imaplib.IMAP4_SSL(self.email_server)
-        #self.mail.login(self.email, self.email_password)
+        # self.mail = imaplib.IMAP4_SSL(self.email_server)
+        # self.mail.login(self.email, self.email_password)
 
         # Select mailbox
-        #self.mail.select('inbox')
+        # self.mail.select('inbox')
 
         # Initalize discord client connection
         self.client = discord.Client()
@@ -72,7 +72,7 @@ class EmailBlaster(object):
 
             schedule.run_pending()
             time.sleep(1)
-    
+
     async def on_message(self, message):
         if message.author == self.client.user:
             return
