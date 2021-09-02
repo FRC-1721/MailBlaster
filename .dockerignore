@@ -4,6 +4,7 @@
 # Don't ignore...
 !email_blaster/
 !requirements/
+!resources/
 !bin/
 !setup.py
 !README.md

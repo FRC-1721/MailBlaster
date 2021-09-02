@@ -8,7 +8,7 @@ import sys
 import logging
 import email
 import configparser
-
+from shutil import copyfile
 
 from discord.ext import commands
 
@@ -35,6 +35,8 @@ class EmailBlaster(object):
         else:
             logging.basicConfig(stream=sys.stderr, level=logging.INFO)
             logging.info("Running in prod mode.")
+
+        self.get_config()
 
         # Create a config object.
         self.config = configparser.ConfigParser()
@@ -105,3 +107,21 @@ class EmailBlaster(object):
                     print(f'From: {mail_from}')
                     print(f'Subject: {mail_subject}')
                     print(f'Content: {mail_content}')
+
+    def get_config(self):
+        # Returns the config or halts loading till a config is found
+        configuration = configparser.ConfigParser()
+
+        config_file_location = '/config/config.ini'
+
+        # Check if config exists
+        if os.path.isfile(config_file_location):
+            logging.info(f'File found at {config_file_location}, attempting to load')
+
+            configuration.read('/config/config.ini')
+        else:
+            try:
+                logging.error(f'Config file not found! Copying default in.')
+            except PermissionError:
+                logging.error('Unable to copy file! Permission error!')
+            copyfile('/app/resources/config.ini', config_file_location)
