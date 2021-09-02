@@ -5,3 +5,6 @@ Pipfile.lock
 
 # Config/Secrets
 config.ini
+
+# Dev
+.vscode
