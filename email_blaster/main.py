@@ -7,13 +7,8 @@ import os
 import sys
 import logging
 import email
-import imaplib
-import schedule
-import time
 import configparser
 
-from email_blaster.cogs import check_email
-from importlib.util import resolve_name
 
 from discord.ext import commands
 
@@ -61,18 +56,16 @@ class EmailBlaster(object):
             logging.debug(f"Found file {filename}, loading as extension.")
             if filename.endswith('.py'):
                 self.bot.load_extension(f'cogs.{filename[:-3]}')
-        #self.bot.load_extension("cogs.check_email")
-
 
     def run(self):
         logging.info(f"using version {self.version}")
 
         # Login with credentials
-        #self.mail = imaplib.IMAP4_SSL(self.email_server)
-        #self.mail.login(self.email, self.email_password)
+        # self.mail = imaplib.IMAP4_SSL(self.email_server)
+        # self.mail.login(self.email, self.email_password)
 
         # Select mailbox
-        #self.mail.select('inbox')
+        # self.mail.select('inbox')
 
         # Run the discord bot using our token.
         self.bot.run(self.config['discord']['token'])
