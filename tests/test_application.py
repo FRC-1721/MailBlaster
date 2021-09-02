@@ -1,4 +1,5 @@
 import pytest
+import os.path
 
 from email_blaster.main import EmailBlaster
 
@@ -17,3 +18,7 @@ class TestApplication(object):
     def test_config_readable(self, app):
         # Config must have these sections
         assert app.config.sections() == ['discord', 'mail']
+
+    def test_config_mountpoint(self, app):
+        # Mountpoint must point where we expect
+        assert os.path.isfile('/config/config.ini') is True
