@@ -20,7 +20,7 @@ class EmailBlaster(object):
         self.bot = commands.Bot(command_prefix='.')
 
         # Append our workdir to the path (for importing modules)
-        self.workdir = '/app/email_blaster'
+        self.workdir = '/app/email_blaster/'
         sys.path.append(self.workdir)
 
         # Get the build commit that the code was built with.
@@ -41,7 +41,7 @@ class EmailBlaster(object):
 
         # Read in our configuration.
         logging.debug(f"Looking for config in {os.listdir(os.getcwd())}")  # Debug message.
-        self.config.read(self.workdir + '/config.ini')
+        self.config.read(self.workdir + 'config.ini')
         logging.debug(f"Read in config, contents={self.config.sections()}")  # Debug Message.
 
         # TODO: These may be redundant.
@@ -52,20 +52,13 @@ class EmailBlaster(object):
         # TODO: Remove in favor of callbacks, or something.
         self.email_list = []
 
-        for filename in os.listdir(self.workdir + '/cogs'):
+        for filename in os.listdir(self.workdir + 'cogs'):
             logging.debug(f"Found file {filename}, loading as extension.")
             if filename.endswith('.py'):
                 self.bot.load_extension(f'cogs.{filename[:-3]}')
 
     def run(self):
         logging.info(f"using version {self.version}")
-
-        # Login with credentials
-        # self.mail = imaplib.IMAP4_SSL(self.email_server)
-        # self.mail.login(self.email, self.email_password)
-
-        # Select mailbox
-        # self.mail.select('inbox')
 
         # Run the discord bot using our token.
         self.bot.run(self.config['discord']['token'])
