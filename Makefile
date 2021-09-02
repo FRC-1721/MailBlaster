@@ -54,7 +54,7 @@ shell:
 	docker-compose run --entrypoint "/bin/bash" email_blaster
 
 # Run command in container
-run:
+run: build
 	docker-compose run email_blaster $(COMMAND)
 
 # Stop container

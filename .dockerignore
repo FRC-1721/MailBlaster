@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Don't ignore...
+!email_blaster/
+!requirements/
+!bin/
+!setup.py
+!README.md
+!LICENSE

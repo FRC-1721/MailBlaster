@@ -46,12 +46,12 @@ RUN pip install -r requirements/requirements.txt
 RUN pip install -r requirements/test_requirements.txt
 
 # Copy in everything else
-ADD . ${HOME}/${APP_NAME}
+ADD . ${HOME}
 # Add /bin to path
-ENV PATH $PATH:${HOME}/${APP_NAME}/bin
+ENV PATH $PATH:${HOME}/bin
 
 # Install our app in edit mode using pip
-RUN pip install -e ${HOME}/${APP_NAME}
+RUN pip install -e ${HOME}
 
 # Drop root and change ownership of the application folder to the user
 RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
