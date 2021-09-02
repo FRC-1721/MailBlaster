@@ -16,12 +16,12 @@ import configparser
 class EmailBlaster(object):
 
     def __init__(self):
-        # Get enviormemt vars
+        # Get the build commit that the code was built with.
         self.version = os.environ.get('GIT_COMMIT')  # Currently running version
-        # If we're in production mode or not
+        # Find out if we're running in debug mode, or not.
         self.debug = not os.getenv("DEBUG", 'False').lower() in ('true', '1', 't')
 
-        # Setup logging
+        # Setup logging.
         if self.debug:
             logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
             logging.debug("Running in debug mode.")
@@ -29,26 +29,28 @@ class EmailBlaster(object):
             logging.basicConfig(stream=sys.stderr, level=logging.INFO)
             logging.info("Running in prod mode.")
 
-        # Generate config
+        # Create a config object.
         self.config = configparser.ConfigParser()
 
-        # Read config
-        logging.debug(os.listdir(os.getcwd()))
+        # Read in our configuration.
+        logging.debug(f"Looking for config in {os.listdir(os.getcwd())}")  # Debug message.
         self.config.read('/app/email-blaster/email_blaster/config.ini')
-        logging.debug(self.config.sections())
+        logging.debug(f"Read in config, contents={self.config.sections()}")  # Debug Message.
 
+        # TODO: These may be redundant.
         self.email = self.config['mail']['email']
         self.email_password = self.config['mail']['emailPassword']
         self.email_server = self.config['mail']['emailServer']
 
-        # Scheduled tasks
+        # Scheduled tasks.
         if self.debug:
-            # Check for emails every 20 to 50 seconds
+            # Check for emails more quickly if we're in debug mode.
             schedule.every(20).to(50).seconds.do(self.get_new_emails)
         else:
-            # Check for emails every 10 to 15 minutes
+            # Check for emails every 10 to 15 minutes in normal mode.
             schedule.every(10).to(15).minutes.do(self.get_new_emails)
 
+        # TODO: Remove in favor of callbacks, or something.
         self.email_list = []
 
     def run(self):
