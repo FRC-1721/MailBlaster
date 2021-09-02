@@ -21,4 +21,4 @@ class TestApplication(object):
 
     def test_config_mountpoint(self, app):
         # Mountpoint must point where we expect
-        assert os.path.isfile('/config/config.ini') is True
+        assert os.path.isdir('/config') is True
