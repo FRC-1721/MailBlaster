@@ -15,9 +15,9 @@ class TestApplication(object):
         # App version must be present
         assert len(app.version) > 1
 
-    def test_config_readable(self, app):
-        # Config must have these sections
-        assert app.bot.config.sections() == ['discord', 'mail']
+    # def test_config_readable(self, app):
+    #    # Config must have these sections
+    #    assert app.bot.config.sections() == ['discord', 'mail']
 
     def test_config_mountpoint(self, app):
         # Mountpoint must point where we expect
