@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  email_blaster:
+    image: ghcr.io/frc-1721/mailblaster:release
+    restart: "no"
+    command: "true"
+    volumes:
+      # Mount ~/MailBlaster-config on the host to /config inside the container
+      - ~/MailBlaster-config:/config:rw
