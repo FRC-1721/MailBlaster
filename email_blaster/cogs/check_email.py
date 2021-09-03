@@ -29,10 +29,12 @@ class CheckEmailCog(commands.Cog):
         email_content = self.get_new_emails()
 
         if len(email_content) > 0:
-            payload = f"""@everyone
-            {email_content}
+            payload = f"""
+@everyone
 
-            Email Blaster version {self.bot.version}"""
+{email_content}
+
+Email Blaster version {self.bot.version}"""
 
             await alert_chanel.send(payload)
         else:
