@@ -35,10 +35,16 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Extract Version information for email_blaster
+        id: extract_hash
+        run: |
+          echo build_hash=$(git rev-parse --short HEAD) >> $GITHUB_ENV
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
+          build-args: GIT_COMMIT:${{ env.build_hash }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
