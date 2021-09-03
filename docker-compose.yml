@@ -9,4 +9,4 @@ services:
     command: "true"
     volumes:
       # Mount ~/MailBlaster-config on the host to /config inside the container
-      - ~/MailBlaster-config:/config
+      - ~/MailBlaster-config:/config:rw

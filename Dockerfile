@@ -53,7 +53,7 @@ ENV PATH $PATH:${HOME}/bin
 # Install our app in edit mode using pip
 RUN pip install -e ${HOME}
 
-# Drop root and change ownership of the application folder to the user
+# Drop root and change ownership of /app to app:app
 RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
 USER ${USER_ID}
 
