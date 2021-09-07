@@ -13,29 +13,29 @@ class KeyValueTable(dict):
     '''
     def __init__(self, filename=None):
         self.conn = sqlite3.connect(filename)
-        self.conn.execute("CREATE TABLE IF NOT EXISTS kv (key text unique, value text)")
+        self.conn.execute("CREATE TABLE IF NOT EXISTS config (key text unique, value text)")
 
     def close(self):
         self.conn.commit()
         self.conn.close()
 
     def __len__(self):
-        rows = self.conn.execute('SELECT COUNT(*) FROM kv').fetchone()[0]
+        rows = self.conn.execute('SELECT COUNT(*) FROM config').fetchone()[0]
         return rows if rows is not None else 0
 
     def iterkeys(self):
         self.conn.cursor()
-        for row in self.conn.execute('SELECT key FROM kv'):
+        for row in self.conn.execute('SELECT key FROM config'):
             yield row[0]
 
     def itervalues(self):
         c = self.conn.cursor()
-        for row in c.execute('SELECT value FROM kv'):
+        for row in c.execute('SELECT value FROM config'):
             yield row[0]
 
     def iteritems(self):
         c = self.conn.cursor()
-        for row in c.execute('SELECT key, value FROM kv'):
+        for row in c.execute('SELECT key, value FROM config'):
             yield row[0], row[1]
 
     def keys(self):
@@ -48,21 +48,21 @@ class KeyValueTable(dict):
         return list(self.iteritems())
 
     def __contains__(self, key):
-        return self.conn.execute('SELECT 1 FROM kv WHERE key = ?', (key,)).fetchone() is not None
+        return self.conn.execute('SELECT 1 FROM config WHERE key = ?', (key,)).fetchone() is not None
 
     def __getitem__(self, key):
-        item = self.conn.execute('SELECT value FROM kv WHERE key = ?', (key,)).fetchone()
+        item = self.conn.execute('SELECT value FROM config WHERE key = ?', (key,)).fetchone()
         if item is None:
             raise KeyError(key)
         return item[0]
 
     def __setitem__(self, key, value):
-        self.conn.execute('REPLACE INTO kv (key, value) VALUES (?,?)', (key, value))
+        self.conn.execute('REPLACE INTO config (key, value) VALUES (?,?)', (key, value))
 
     def __delitem__(self, key):
         if key not in self:
             raise KeyError(key)
-        self.conn.execute('DELETE FROM kv WHERE key = ?', (key,))
+        self.conn.execute('DELETE FROM config WHERE key = ?', (key,))
 
     def __iter__(self):
         return self.iterkeys()
