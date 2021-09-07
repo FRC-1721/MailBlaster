@@ -5,6 +5,7 @@
 
 import os
 import sys
+import sqlite3
 import logging
 import configparser
 from shutil import copyfile
@@ -51,7 +52,11 @@ class EmailBlaster(object):
         self.bot.run(self.bot.config['discord']['token'])
 
     def get_config(self):
-        # Returns the config or halts loading till a config is found
+        '''Returns the config or halts loading till a config is found'''
+
+        # Connects to the blaster database
+        con = sqlite3.connect('/config/blaster.db')
+
         configuration = configparser.ConfigParser()
 
         config_file_location = '/config/config.ini'

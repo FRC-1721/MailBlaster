@@ -43,6 +43,11 @@ install-requirements:
 
 # Build container locally
 build:
+	# Setup volumes
+	mkdir -p ~/MailBlaster-config
+	sudo chown -R 1000:1000 ~/MailBlaster-config
+	sudo chmod 755 -R ~/MailBlaster-config
+	# Build
 	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) --build-arg DEBUG=True
 
 # Delete container
@@ -64,5 +69,7 @@ stop:
 
 # "production"
 prod:
-	docker-compose build --build-arg GIT_COMMIT=$(shell git rev-parse --short HEAD) --build-arg DEBUG=False
-	docker-compose up -d
+	mkdir -p ~/MailBlaster-config
+	sudo chown -R 1000:1000 ~/MailBlaster-config
+	sudo chmod 755 -R ~/MailBlaster-config
+	docker-compose -f docker-compose-prod.yml up -d
