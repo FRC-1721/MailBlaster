@@ -17,10 +17,6 @@ class CheckEmailCog(commands.Cog):
         # Start checking for emails.
         self.check_email.start()
 
-    @tasks.loop.error
-    async def exception_catching_callback(self, coro):
-        print(f'Coroutine {coro} failed')
-
     def cog_unload(self):
         # Unloads the cog. (stops whatever its doing)
         self.check_email.cancel()
@@ -112,6 +108,11 @@ Email Blaster version {self.bot.version}"""
 
                     return mail_content
         return ""  # Return empty string otherwise
+
+    @check_email.error
+    async def exception_catching_callback(self, e):
+        logging.error(f'caught error: {e}')
+        self.cog_unload()
 
 
 def setup(bot):
