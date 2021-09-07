@@ -5,12 +5,12 @@
 
 import os
 import sys
-import sqlite3
 import logging
 import configparser
 from shutil import copyfile
 
 from discord.ext import commands
+from email_blaster.keyValueTable import KeyValueTable
 
 
 class EmailBlaster(object):
@@ -54,18 +54,19 @@ class EmailBlaster(object):
     def get_config(self):
         '''Returns the config or halts loading till a config is found'''
 
-        # Connects to the blaster database
-        con = sqlite3.connect('/config/blaster.db')
-
-        configuration = configparser.ConfigParser()
-
         config_file_location = '/config/config.ini'
+        database_file_location = '/config/blaster.db'
 
-        # Check if config exists
+        # Connects to the blaster database
+        database = KeyValueTable(database_file_location)
+        # Connect to the config.ini
+        config = configparser.ConfigParser()
+
+        # Check if static config.ini exists
         if os.path.isfile(config_file_location):
             logging.info(f'File found at {config_file_location}, attempting to load')
 
-            configuration.read(config_file_location)
+            config.read(config_file_location)
         else:
             try:
                 logging.warning('Config file not found! Copying default in.')
@@ -73,4 +74,8 @@ class EmailBlaster(object):
             except PermissionError:
                 logging.error('Unable to copy file! Permission error! This is not fixed yet!')
 
-        return configuration
+        # Once the config is loaded, and the db we can compare them
+        # Compare
+        assert database['token'] == config['discord']['Token']
+
+        return None
