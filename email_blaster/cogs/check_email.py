@@ -21,7 +21,7 @@ class CheckEmailCog(commands.Cog):
 
     @tasks.loop(minutes=3)
     async def check_email(self):
-        alert_chennel_id = self.bot.config['discord']['AlertsChannel']
+        alert_chennel_id = self.bot.config['AlertsChannel']
         alert_chanel = self.bot.get_channel(int(alert_chennel_id))
 
         logging.debug(f"Checking for new emails, sending info to {alert_chennel_id}")
@@ -47,9 +47,9 @@ Email Blaster version {self.bot.version}"""
         await self.bot.wait_until_ready()
 
         # Start the imap connector
-        self.email_address = self.bot.config['mail']['email']
-        self.email_password = self.bot.config['mail']['emailPassword']
-        self.email_server = self.bot.config['mail']['emailServer']
+        self.email_address = self.bot.config['email']
+        self.email_password = self.bot.config['emailpassword']
+        self.email_server = self.bot.config['emailserver']
 
         # Setup a connection to the imap mailserver
         self.mail = imaplib.IMAP4_SSL(self.email_server)

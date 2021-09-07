@@ -49,6 +49,8 @@ jobs:
         with:
           context: .
           push: true
-          build-args: GIT_COMMIT=${{ env.build_hash }}
+          build-args: 
+            - GIT_COMMIT=${{ env.build_hash }}
+            - DEBUG=False
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

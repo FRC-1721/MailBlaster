@@ -49,7 +49,7 @@ class EmailBlaster(object):
         logging.info(f"using version {self.version}")
 
         # Run the discord bot using our token.
-        self.bot.run(self.bot.config['discord']['token'])
+        self.bot.run(self.bot.config['token'])
 
     def get_config(self):
         '''Returns the config or halts loading till a config is found'''
