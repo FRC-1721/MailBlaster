@@ -15,6 +15,9 @@ class KeyValueTable(dict):
         self.conn = sqlite3.connect(filename)
         self.conn.execute("CREATE TABLE IF NOT EXISTS config (key text unique, value text)")
 
+    def commit(self):
+        self.conn.commit()
+
     def close(self):
         self.conn.commit()
         self.conn.close()

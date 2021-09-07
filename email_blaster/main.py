@@ -74,8 +74,46 @@ class EmailBlaster(object):
             except PermissionError:
                 logging.error('Unable to copy file! Permission error! This is not fixed yet!')
 
+        _config = {}
+        # Convert the static config to a dict without sections
+        for section in config.sections():
+            for pair in config.items(section):
+                key = pair[0]
+                value = pair[1]
+                _config[key] = value  # Funky stuff
+
+        config = _config
+        logging.info('Converted config.ini to a dict.')
+
         # Once the config is loaded, and the db we can compare them
         # Compare
-        assert database['token'] == config['discord']['Token']
+        try:
+            assert database['token'] == config['token']
+        except AssertionError:
+            # Assertion error if what we asserted is not true.
+            logging.info('Static database and configuration database differ! Updating database.')
 
-        return None
+            # Mirror the config over.
+            for key in config:
+                database[key] = config[key]
+
+            logging.info('Converted ini to database, continuing to load the bot.')
+            database.commit()
+            return database
+        except KeyError:
+            # Key error if token straight up does not exist
+            logging.warning('Database was detected to be empty!" \
+                "Copying in defaults from config.ini.')
+
+            # Mirror the config over.
+            for key in config:
+                database[key] = config[key]
+
+            logging.warning('Default database has been coppied." \
+                "Its possible only default values are set, check config.ini.')
+            database.commit()
+            return database
+
+        logging.info('Database and config loaded and up to date!')
+        database.commit()
+        return database
