@@ -11,6 +11,7 @@ from shutil import copyfile
 
 from discord.ext import commands
 from email_blaster.keyValueTable import KeyValueTable
+from email_blaster.exception_handler import handle_exception
 
 
 class EmailBlaster(object):
@@ -18,6 +19,8 @@ class EmailBlaster(object):
     def __init__(self):
         # Create our discord bot
         self.bot = commands.Bot(command_prefix='.')
+
+        self.bot.loop.set_exception_handler(handle_exception)
 
         # Append our workdir to the path (for importing modules)
         self.workdir = '/app/email_blaster/'

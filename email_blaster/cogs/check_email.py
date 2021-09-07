@@ -1,3 +1,8 @@
+# Tidal Force Robotics
+# 2021, Email Blaster
+# MIT License
+
+
 import logging
 import imaplib
 import email
@@ -48,7 +53,7 @@ Email Blaster version {self.bot.version}"""
 
         # Start the imap connector
         self.email_address = self.bot.config['email']
-        self.email_password = self.bot.config['emailpassword']
+        self.email_password = self.bot.config['emailPassword']
         self.email_server = self.bot.config['emailserver']
 
         # Setup a connection to the imap mailserver
