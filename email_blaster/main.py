@@ -63,7 +63,7 @@ class EmailBlaster(object):
             configuration.read(config_file_location)
         else:
             try:
-                logging.error('Config file not found! Copying default in.')
+                logging.warning('Config file not found! Copying default in.')
                 copyfile('/app/resources/config.ini', config_file_location)
             except PermissionError:
                 logging.error('Unable to copy file! Permission error! This is not fixed yet!')
