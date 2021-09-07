@@ -48,7 +48,8 @@ class KeyValueTable(dict):
         return list(self.iteritems())
 
     def __contains__(self, key):
-        return self.conn.execute('SELECT 1 FROM config WHERE key = ?', (key,)).fetchone() is not None
+        return self.conn.execute('SELECT 1 FROM config WHERE key = ?',
+                                 (key,)).fetchone() is not None
 
     def __getitem__(self, key):
         item = self.conn.execute('SELECT value FROM config WHERE key = ?', (key,)).fetchone()
