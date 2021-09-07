@@ -17,6 +17,13 @@ class CheckEmailCog(commands.Cog):
         # Start checking for emails.
         self.check_email.start()
 
+        # Exception handling(?)
+        self.check_email.add_done_callback(self.exception_catching_callback)
+
+    def exception_catching_callback(task):
+        if task.exception():
+            task.print_stack()
+
     def cog_unload(self):
         # Unloads the cog. (stops whatever its doing)
         self.check_email.cancel()
