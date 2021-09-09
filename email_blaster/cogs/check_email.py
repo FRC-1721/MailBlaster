@@ -53,7 +53,7 @@ Email Blaster version {self.bot.version}"""
 
         # Start the imap connector
         self.email_address = self.bot.config['email']
-        self.email_password = self.bot.config['emailPassword']
+        self.email_password = self.bot.config['emailpassword']
         self.email_server = self.bot.config['emailserver']
 
         # Setup a connection to the imap mailserver
@@ -61,6 +61,7 @@ Email Blaster version {self.bot.version}"""
         self.mail.login(self.email_address, self.email_password)
 
     def get_new_emails(self):
+        raise ValueError
         """
         Check for new unread emails and add them to a postlist to sort through.
         """
@@ -112,7 +113,7 @@ Email Blaster version {self.bot.version}"""
     @check_email.error
     async def exception_catching_callback(self, e):
         logging.error(f'caught error: {e}')
-        self.cog_unload()
+        quit()
 
 
 def setup(bot):
