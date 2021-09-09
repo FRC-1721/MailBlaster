@@ -61,7 +61,6 @@ Email Blaster version {self.bot.version}"""
         self.mail.login(self.email_address, self.email_password)
 
     def get_new_emails(self):
-        raise ValueError
         """
         Check for new unread emails and add them to a postlist to sort through.
         """
