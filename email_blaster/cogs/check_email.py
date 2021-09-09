@@ -26,7 +26,7 @@ class CheckEmailCog(commands.Cog):
 
     @tasks.loop(minutes=3)
     async def check_email(self):
-        alert_chennel_id = self.bot.config['AlertsChannel']
+        alert_chennel_id = self.bot.config['alertschannel']
         alert_chanel = self.bot.get_channel(int(alert_chennel_id))
 
         logging.debug(f"Checking for new emails, sending info to {alert_chennel_id}")
