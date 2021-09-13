@@ -63,7 +63,7 @@ class EmailBlaster(object):
 
             return database
         except sqlite3.OperationalError:
-            logging.warn('Bot detected it was running in debug mode, or there was another error finding a db.')
+            logging.warn('Bot detected it was running locally! or there was an error finding a db.')
             logging.info('Attempting an alternative configuration')
 
             config_file_location = '/tmp/mailblaster/config.ini'

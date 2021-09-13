@@ -3,7 +3,6 @@
 # MIT License
 
 
-import logging
 import discord
 
 from discord.ext import commands
