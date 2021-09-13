@@ -5,6 +5,7 @@
 
 import os
 import sys
+import sqlite3
 import logging
 import configparser
 from shutil import copyfile
@@ -24,9 +25,9 @@ class EmailBlaster(object):
         sys.path.append(self.workdir)
 
         # Get the build commit that the code was built with.
-        self.version = os.environ.get('GIT_COMMIT')  # Currently running version
+        self.version = str(os.environ.get('GIT_COMMIT'))  # Currently running version
         # Find out if we're running in debug mode, or not.
-        self.debug = not os.getenv("DEBUG", 'False').lower() in ('true', '1', 't')
+        self.debug = str(os.environ.get("DEBUG")).lower() in ('true', '1', 't')
 
         # Setup logging.
         if self.debug:
@@ -57,20 +58,32 @@ class EmailBlaster(object):
         config_file_location = '/config/config.ini'
         database_file_location = '/config/blaster.db'
 
+        try:
+            database = self.initalize_database(config_file_location, database_file_location)
+
+            return database
+        except sqlite3.OperationalError:
+            logging.warn('Bot detected it was running in debug mode, or there was another error finding a db.')
+            logging.info('Attempting an alternative configuration')
+
+            config_file_location = '/tmp/mailblaster/config.ini'
+            database_file_location = '/tmp/mailblaster/blaster.db'
+
+    def initalize_database(self, cfg_file_loc, db_file_loc):
         # Connects to the blaster database
-        database = KeyValueTable(database_file_location)
+        database = KeyValueTable(db_file_loc)
         # Connect to the config.ini
         config = configparser.ConfigParser()
 
         # Check if static config.ini exists
-        if os.path.isfile(config_file_location):
-            logging.info(f'File found at {config_file_location}, attempting to load')
+        if os.path.isfile(cfg_file_loc):
+            logging.info(f'File found at {cfg_file_loc}, attempting to load')
 
-            config.read(config_file_location)
+            config.read(cfg_file_loc)
         else:
             try:
                 logging.warning('Config file not found! Copying default in.')
-                copyfile('/app/resources/config.ini', config_file_location)
+                copyfile('/app/resources/config.ini', cfg_file_loc)
             except PermissionError:
                 logging.error('Unable to copy file! Permission error! This is not fixed yet!')
 
