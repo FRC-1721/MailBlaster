@@ -33,11 +33,16 @@ class CheckEmailCog(commands.Cog):
 
         email_content = self.get_new_emails()
 
-        if len(email_content) > 0:
-            payload = f"""
+        msg_chunk = self.split_into_chunks(email_content, 1900)
+        logging.debug('Split into chunks')
+        logging.debug(msg_chunk)
+
+        if len(msg_chunk) > 0:
+            for chunk in msg_chunk:
+                payload = f"""
 @everyone
 
-{email_content}
+{chunk}
 
 Email Blaster version {self.bot.version}"""
 
@@ -113,6 +118,19 @@ Email Blaster version {self.bot.version}"""
     async def exception_catching_callback(self, e):
         logging.error(f'caught error: {e}')
         quit()
+
+    def split_into_chunks(self, string, max_len):
+        chunks = []
+
+        i = 0
+        while i < len(string):
+            if i+max_len < len(string):
+                chunks.append(string[i:i+max_len])
+            else:
+                chunks.append(string[i:len(string)])
+            i += max_len
+
+        return(chunks)
 
 
 def setup(bot):
