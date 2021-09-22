@@ -66,7 +66,6 @@ Email Blaster version {self.bot.version}"""
         # login to mailserver.
         self.login()
 
-
     def login(self):
         # Setup a connection to the imap mailserver
         self.mail = imaplib.IMAP4_SSL(self.email_server)
