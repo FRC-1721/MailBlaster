@@ -3,9 +3,11 @@
 # MIT License
 
 
+import email
+import socket
 import logging
 import imaplib
-import email
+
 
 from discord.ext import tasks, commands
 
@@ -61,6 +63,11 @@ Email Blaster version {self.bot.version}"""
         self.email_password = self.bot.config['emailpassword']
         self.email_server = self.bot.config['emailserver']
 
+        # login to mailserver.
+        self.login()
+
+
+    def login(self):
         # Setup a connection to the imap mailserver
         self.mail = imaplib.IMAP4_SSL(self.email_server)
         self.mail.login(self.email_address, self.email_password)
@@ -71,7 +78,12 @@ Email Blaster version {self.bot.version}"""
         """
 
         # Select mailbox
-        self.mail.select('inbox')
+        try:
+            self.mail.select('inbox')
+        except socket.error as e:
+            logging.error(f'Doing a socket reconnect, got error: {e}')
+            self.login()
+            self.mail.select('inbox')
 
         logging.debug("Checking for new emails.")
         # From here https://humberto.io/blog/sending-and-receiving-emails-with-python/
