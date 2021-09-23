@@ -48,7 +48,7 @@ build:
 	sudo chown -R 1000:1000 ~/MailBlaster-config
 	sudo chmod 755 -R ~/MailBlaster-config
 	# Build
-	docker-compose build --build-arg GIT_COMMIT=$(shell git describe --abbrev=8 --always --tags) --build-arg DEBUG=True
+	docker-compose build --build-arg GIT_COMMIT=$(shell git describe --abbrev=2 --always --tags --dirty) --build-arg DEBUG=True
 
 # Delete container
 docker-rm: stop
