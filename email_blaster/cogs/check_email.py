@@ -4,7 +4,6 @@
 
 
 import email
-import socket
 import logging
 import imaplib
 
