@@ -63,67 +63,56 @@ Email Blaster version {self.bot.version}"""
         self.email_password = self.bot.config['emailpassword']
         self.email_server = self.bot.config['emailserver']
 
-        # login to mailserver.
-        self.login()
-
-    def login(self):
-        # Setup a connection to the imap mailserver
-        self.mail = imaplib.IMAP4_SSL(self.email_server)
-        self.mail.login(self.email_address, self.email_password)
 
     def get_new_emails(self):
         """
         Check for new unread emails and add them to a postlist to sort through.
         """
 
-        # Select mailbox
-        try:
-            self.mail.select('inbox')
-        except socket.error as e:
-            logging.error(f'Doing a socket reconnect, got error: {e}')
-            self.login()
+        with imaplib.IMAP4_SSL(self.email_server) as mail:
+
             self.mail.select('inbox')
 
-        logging.debug("Checking for new emails.")
-        # From here https://humberto.io/blog/sending-and-receiving-emails-with-python/
-        status, data = self.mail.search(None, "(UNSEEN)")
+            logging.debug("Checking for new emails.")
+            # From here https://humberto.io/blog/sending-and-receiving-emails-with-python/
+            status, data = self.mail.search(None, "(UNSEEN)")
 
-        mail_ids = []
+            mail_ids = []
 
-        for block in data:
-            mail_ids += block.split()
+            for block in data:
+                mail_ids += block.split()
 
-        # Fetch the mail using each ID
-        for i in mail_ids:
-            status, data = self.mail.fetch(i, '(RFC822)')
-            for response_part in data:
-                if isinstance(response_part, tuple):
-                    message = email.message_from_bytes(response_part[1])
-                    mail_from = message['from']
-                    mail_subject = message['subject']
-                    if message.is_multipart():
-                        mail_content = ''
+            # Fetch the mail using each ID
+            for i in mail_ids:
+                status, data = mail.fetch(i, '(RFC822)')
+                for response_part in data:
+                    if isinstance(response_part, tuple):
+                        message = email.message_from_bytes(response_part[1])
+                        mail_from = message['from']
+                        mail_subject = message['subject']
+                        if message.is_multipart():
+                            mail_content = ''
 
-                        # on multipart we have the text message and
-                        # another things like annex, and html version
-                        # of the message, in that case we loop through
-                        # the email payload
-                        for part in message.get_payload():
-                            # if the content type is text/plain
-                            # we extract it
-                            if part.get_content_type() == 'text/plain':
-                                mail_content += part.get_payload()
-                    else:
-                        # if the message isn't multipart, just extract it
-                        mail_content = message.get_payload()
+                            # on multipart we have the text message and
+                            # another things like annex, and html version
+                            # of the message, in that case we loop through
+                            # the email payload
+                            for part in message.get_payload():
+                                # if the content type is text/plain
+                                # we extract it
+                                if part.get_content_type() == 'text/plain':
+                                    mail_content += part.get_payload()
+                        else:
+                            # if the message isn't multipart, just extract it
+                            mail_content = message.get_payload()
 
-                    # and then let's show its result
-                    logging.info(f'From: {mail_from}')
-                    logging.info(f'Subject: {mail_subject}')
-                    logging.info(f'Content: {mail_content}')
+                        # and then let's show its result
+                        logging.info(f'From: {mail_from}')
+                        logging.info(f'Subject: {mail_subject}')
+                        logging.info(f'Content: {mail_content}')
 
-                    return mail_content
-        return ""  # Return empty string otherwise
+                        return mail_content
+            return ""  # Return empty string otherwise
 
     @check_email.error
     async def exception_catching_callback(self, e):
