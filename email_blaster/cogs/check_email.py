@@ -62,7 +62,6 @@ Email Blaster version {self.bot.version}"""
         self.email_password = self.bot.config['emailpassword']
         self.email_server = self.bot.config['emailserver']
 
-
     def get_new_emails(self):
         """
         Check for new unread emails and add them to a postlist to sort through.
