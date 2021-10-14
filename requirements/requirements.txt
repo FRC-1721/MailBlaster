@@ -1,2 +1,3 @@
 schedule
 discord.py
+git+https://github.com/closeio/quotequail.git#egg=quotequail
