@@ -69,11 +69,11 @@ Email Blaster version {self.bot.version}"""
 
         with imaplib.IMAP4_SSL(self.email_server) as mail:
 
-            self.mail.select('inbox')
+            mail.select('inbox')
 
             logging.debug("Checking for new emails.")
             # From here https://humberto.io/blog/sending-and-receiving-emails-with-python/
-            status, data = self.mail.search(None, "(UNSEEN)")
+            status, data = mail.search(None, "(UNSEEN)")
 
             mail_ids = []
 
