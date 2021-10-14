@@ -1,8 +1,12 @@
 import pytest
 import os.path
 
+from random import choice
+from string import ascii_lowercase
+
 from email_blaster.main import EmailBlaster
 from email_blaster.keyValueTable import KeyValueTable
+from email_blaster.cogs.check_email import split_into_chunks
 
 
 @pytest.fixture
@@ -35,3 +39,17 @@ class TestApplication(object):
         assert kvt['bot_token'] == '0101u72636462615517'
 
         kvt.close()
+
+    def test_chunk_splitter(self):
+        """
+        Written by joe
+        Tests if the chunksplitter makes
+        Valid discord frames
+        """
+
+        test_message = "".join(choice(ascii_lowercase) for i in range(3500))
+
+        split_message = split_into_chunks(test_message, 2000)
+
+        for split in split_message:
+            assert len(split) <= 2000
