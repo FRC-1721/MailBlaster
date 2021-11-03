@@ -6,6 +6,11 @@ services:
     environment:
       - DEBUG
       - TOKEN
+      - EMAIL
+      - EMAILPASSWORD
+      - EMAILSERVER
+      - ALERTSROLE
+      - ALERTSCHANNEL
     build:
       context: .
       dockerfile: Dockerfile

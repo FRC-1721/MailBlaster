@@ -6,6 +6,11 @@ services:
     environment:
       - DEBUG
       - TOKEN
+      - EMAIL
+      - EMAILPASSWORD
+      - EMAILSERVER
+      - ALERTSROLE
+      - ALERTSCHANNEL
     image: ghcr.io/frc-1721/mailblaster:release
     restart: "no"
     command: "true"
