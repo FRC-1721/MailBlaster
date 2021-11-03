@@ -84,8 +84,16 @@ class EmailBlaster(object):
             # Check if its populated
             if value != 'None':
                 logging.debug(f'Found manual var {setting} set to {value}.')
-                if value != database[setting]:
+                try:
+                    assert value == database[setting]
+                except AssertionError:
+                    # If what we asserted is not true (value is updated)
                     logging.info(f'User configured value {value} for entry {setting} differs from saved setting, {database[setting]}, updating.')  # noqa: E501
+                    database[setting] = value  # Update manually configured value
+                    database.commit()
+                except KeyError:
+                    # If the key does not exist
+                    logging.info(f'Initalizing new value for {setting}, using user supplied value: {value}.')  # noqa: E501
                     database[setting] = value  # Update manually configured value
                     database.commit()
 
