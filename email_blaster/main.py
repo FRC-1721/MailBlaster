@@ -7,7 +7,6 @@ import os
 import sys
 import sqlite3
 import logging
-from shutil import copyfile
 
 from discord.ext import commands
 from email_blaster.keyValueTable import KeyValueTable
