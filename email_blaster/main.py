@@ -78,6 +78,7 @@ class EmailBlaster(object):
                         'emailpassword',
                         'emailserver']
 
+        # Loop over all of our settings
         for setting in env_settings:
             value = str(os.environ.get(setting.upper()))  # Get the content of that setting
 
