@@ -62,7 +62,8 @@ class EmailBlaster(object):
             database = self.initalize_database(config_file_location, database_file_location)
 
             return database
-        except sqlite3.OperationalError:
+        except sqlite3.OperationalError as e:
+            logging.error(e)
             logging.warn('Bot detected it was running locally! or there was an error finding a db.')
             logging.info('Attempting an alternative configuration')
 
@@ -101,7 +102,7 @@ class EmailBlaster(object):
         # Once the config is loaded, and the db we can compare them
         # Compare
         try:
-            assert database['token'] == config['token']
+            assert database['token'] == str(os.environ.get('TOKEN'))
         except AssertionError:
             # Assertion error if what we asserted is not true.
             logging.info('Static database and configuration database differ! Updating database.')
@@ -109,6 +110,8 @@ class EmailBlaster(object):
             # Mirror the config over.
             for key in config:
                 database[key] = config[key]
+
+            database['token'] = str(os.environ.get('TOKEN'))
 
             logging.info('Converted ini to database, continuing to load the bot.')
             database.commit()

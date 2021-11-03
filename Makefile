@@ -43,7 +43,7 @@ install-requirements:
 
 # Build container locally
 build:
-	export DEBUG = True
+	export DEBUG=True
 	docker-compose build --build-arg GIT_COMMIT=$(shell git describe --abbrev=2 --always --tags --dirty)
 
 # Delete container
@@ -65,5 +65,5 @@ stop:
 
 # "production"
 prod:
-	export DEBUG = False
+	export DEBUG=False
 	docker-compose -f docker-compose-prod.yml up -d

@@ -12,6 +12,6 @@ services:
     restart: "no"
     command: "true"
     volumes:
-      - MailBlasterData:/config:rw
+      - MailBlasterData:/app/config:rw
 volumes:
   MailBlasterData:
