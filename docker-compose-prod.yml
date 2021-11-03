@@ -2,9 +2,19 @@ version: '3.3'
 
 services:
   email_blaster:
+    # Passes thru ENV Values on the host
+    environment:
+      - DEBUG
+      - TOKEN
+      - EMAIL
+      - EMAILPASSWORD
+      - EMAILSERVER
+      - ALERTSROLE
+      - ALERTSCHANNEL
     image: ghcr.io/frc-1721/mailblaster:release
     restart: "no"
     command: "true"
     volumes:
-      # Mount ~/MailBlaster-config on the host to /config inside the container
-      - ~/MailBlaster-config:/config:rw
+      - MailBlasterData:/config:rw
+volumes:
+  MailBlasterData:

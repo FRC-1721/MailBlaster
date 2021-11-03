@@ -2,11 +2,21 @@ version: '3.3'
 
 services:
   email_blaster:
+    # Passes thru ENV Values on the host
+    environment:
+      - DEBUG
+      - TOKEN
+      - EMAIL
+      - EMAILPASSWORD
+      - EMAILSERVER
+      - ALERTSROLE
+      - ALERTSCHANNEL
     build:
       context: .
       dockerfile: Dockerfile
     restart: "no"
     command: "true"
     volumes:
-      # Mount ~/MailBlaster-config on the host to /config inside the container
-      - ~/MailBlaster-config:/config:rw
+      - MailBlasterData:/app/config:rw
+volumes:
+  MailBlasterData:
