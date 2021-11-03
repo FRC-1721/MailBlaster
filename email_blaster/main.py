@@ -55,8 +55,8 @@ class EmailBlaster(object):
     def get_config(self):
         '''Returns the config or halts loading till a config is found'''
 
-        config_file_location = '/config/config.ini'
-        database_file_location = '/config/blaster.db'
+        config_file_location = '/app/config/config.ini'
+        database_file_location = '/app/config/blaster.db'
 
         try:
             database = self.initalize_database(config_file_location, database_file_location)

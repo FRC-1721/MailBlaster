@@ -7,5 +7,6 @@ if [ "$1" = test ]; then
     exec pytest "${@:2}"
 else
     # Run the actual code otherwise
+    ls -la /app/config
     exec python -m email_blaster
 fi
