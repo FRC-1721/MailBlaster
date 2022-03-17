@@ -14,6 +14,7 @@ env:
 
 jobs:
   test:
+    name: Pytest the Bot
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -23,7 +24,7 @@ jobs:
         run: make test
 
   formatblack:
-    name: Style Check Code with Black
+    name: Check Black Formatting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -56,6 +57,7 @@ jobs:
     # Only publish on tags
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
 
+    name: Build and Publish Registry Image
     runs-on: ubuntu-latest
 
     permissions:
