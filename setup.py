@@ -8,29 +8,28 @@
 
 from setuptools import setup, find_packages
 
-readme = open('README.md').read()
+readme = open("README.md").read()
 
 setup(
-    name='email-blaster',
-    description='A simple tool to forward and email to discord as a blast!',
-    author='1721 Tidal Force',
-    author_email='concordroboticssteam@gmail.com',
-    url='https://github.com/FRC-1721/MailBlaster',
-    packages=find_packages(include=['mail_blaster']),
-    package_dir={'mail-blaster': 'mail_blaster'},
+    name="email-blaster",
+    description="A simple tool to forward and email to discord as a blast!",
+    author="1721 Tidal Force",
+    author_email="concordroboticssteam@gmail.com",
+    url="https://github.com/FRC-1721/MailBlaster",
+    packages=find_packages(include=["mail_blaster"]),
+    package_dir={"mail-blaster": "mail_blaster"},
     entry_points={
-        'console_scripts': [
-            'mail-blaster=mail_blaster.__main__:main',
+        "console_scripts": [
+            "mail-blaster=mail_blaster.__main__:main",
         ],
     },
-
-    python_requires='>=3.6.0',
-    version='0.0.0',
+    python_requires=">=3.6.0",
+    version="0.0.0",
     long_description=readme,
     include_package_data=True,
     install_requires=[
-        'schedule',
-        'discord.py',
+        "schedule",
+        "discord.py",
     ],
-    license='MIT',
+    license="MIT",
 )

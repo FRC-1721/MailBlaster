@@ -16,17 +16,19 @@ class InfoCog(commands.Cog):
     async def on_member_join(self, member):
         channel = member.guild.system_channel
         if channel is not None:
-            await channel.send('Welcome {0.mention}.'.format(member))
+            await channel.send("Welcome {0.mention}.".format(member))
 
     @commands.Cog.listener()
     async def on_ready(self):
-        status_channel = self.bot.get_channel(int('590312300695650305'))
+        status_channel = self.bot.get_channel(int("590312300695650305"))
 
-        await status_channel.send(f'Email Blaster version {self.bot.version} just restarted.')
+        await status_channel.send(
+            f"Email Blaster version {self.bot.version} just restarted."
+        )
 
     @commands.command()
     async def version(self, ctx, *, member: discord.Member = None):
-        await ctx.send(f'I am running version {self.bot.version}.')
+        await ctx.send(f"I am running version {self.bot.version}.")
 
     # This wont work till discord 2.0
     # @commands.command()
